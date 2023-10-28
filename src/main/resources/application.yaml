@@ -1,0 +1,60 @@
+project:
+  name: demo
+  key: demo-key
+  account:
+    name: pacifique
+    email: pacifique@gmail.com
+  sender-grid-email-key: ${SENDER_GRID_API_KEY}
+  sender-grid-secret-name: email-sender-api-key
+  database-secret-name: book-testing-db-credentials
+  bucket-demo: book-app-demo-storage
+  endpoint-url: https://book-app-demo-storage.s3.ap-southeast-1.amazonaws.com/
+#  access-key: Fq4hhKw3tFiHQC/A1Phz60jmO+oSqGqWbz1WBKpF
+#  secret-key: AKIAT7WPJ6YGM2YFUXPO
+#amazonProperties:
+#  endpointUrl: https://s3.us-east-2.amazonaws.com
+#  accessKey: XXXXXXXXXXXXXXXXX
+#  secretKey: XXXXXXXXXXXXXXXXXXXXXXXXXX
+#  bucketName: your-bucket-name
+
+#  url: http://localhost:9090
+#  password: pass123
+spring:
+  profiles:
+    active: dev
+  servlet:
+    multipart:
+      enabled: true
+      file-size-threshold: 5MB
+      max-file-size: 10MB
+      max-request-size: 20MB
+---
+spring:
+  config:
+    import: optional:secret.yml
+    activate:
+      on-profile: dev
+  datasource:
+    url: jdbc:postgresql://localhost:5432/books-demo
+    username: pacifique
+    password: pacifique
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: create
+---
+spring:
+  config:
+    import: optional:secret.yml
+    activate:
+      on-profile: prod
+  datasource:
+#    url: jdbc:postgresql://rdsdemo.chj64odskuqm.ap-southeast-1.rds.amazonaws.com:5432/booksdb
+#    username: root
+#    password: pacifique
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: create
